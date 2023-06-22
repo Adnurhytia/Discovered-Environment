@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Net.WebRequestMethods;
 using System.Windows.Input;
+using System.Collections;
 
 namespace Discovered_Environment
 {
@@ -64,18 +65,15 @@ namespace Discovered_Environment
         private void cbNama()
         {
             koneksi.Open();
-            string str = "select nama_mahasiswa from dbo.Mahasiswa where " + "not EXISTS(select id_status from dbo.status_mahasiswa where " +
-                "status_mahasiswa.nim = mahasiswa.nim";
+            string str = "SELECT nama_mahasiswa FROM Mahasiswa";
             SqlCommand cmd = new SqlCommand(str, koneksi);
-            SqlDataAdapter da = new SqlDataAdapter(str, koneksi);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            cmd.ExecuteReader();
+            SqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                cbxnama.Items.Add(dr.GetString(0));
+            }
+            dr.Close();
             koneksi.Close();
-
-            cbxnama.DisplayMember = "nama_mahasiswa";
-            cbxnama.ValueMember = "NIM";
-            cbxnama.DataSource = ds.Tables[0];
         }
         private void cbTahunMasuk()
         {
@@ -98,21 +96,27 @@ namespace Discovered_Environment
 
         private void cbxnama_SelectedIndexChanged(object sender, EventArgs e)
         {
+            string selectedName = cbxnama.SelectedItem.ToString();
+
+
             koneksi.Open();
-            string nim = "";
-            string strs = "select NIM from dbo.Mahasiswa where nama_mahasiswa = @nm";
-            SqlCommand cm = new SqlCommand(strs, koneksi);
-            cm.CommandType = CommandType.Text;
-            cm.Parameters.Add(new SqlParameter("@nm", cbxnama.Text));
+            string str = "SELECT nim FROM mahasiswa WHERE nama_mahasiswa = @nama_mahasiswa";
+            SqlCommand cm = new SqlCommand(str, koneksi);
+            cm.Parameters.AddWithValue("@nama_mahasiswa", selectedName);
             SqlDataReader dr = cm.ExecuteReader();
-            while (dr.Read())
+
+            if (dr.Read())
             {
-                nim = dr["NIM"].ToString();
+                string nim = dr.GetString(0);
+                txtNIM.Text = nim;
             }
+            else
+            {
+                txtNIM.Text = "";
+            }
+
             dr.Close();
             koneksi.Close();
-
-            txtNIM.Text = nim;
         }
 
         private void btnOpen_Click(object sender, EventArgs e)
@@ -153,25 +157,29 @@ namespace Discovered_Environment
             }
             else
             {
-                string querryString = "select Max(id_status) from dbo.status_mahasiswa";
-                SqlCommand cmStatusMahasiswa = new SqlCommand(str, koneksi);
-                int totalStatusMahasiswa = (int)cmStatusMahasiswa.ExecuteScalar();
-                int finalKodeStatusInt = totalStatusMahasiswa + 1;
-                kodeStatus = Convert.ToString(finalKodeStatusInt);
+                string querryString = "SELECT TOP 1 id_status FROM dbo.status_mahasiswa ORDER BY id_status DESC";
+                cm = new SqlCommand(querryString, koneksi);
+                SqlCommand cmStatusMahasiswa = new SqlCommand(querryString, koneksi);
+                SqlDataReader dr = cm.ExecuteReader();
+                if (dr.Read())
+                {
+                    tempKodeStatus = dr.GetString(0);
+                }
+                dr.Close();
+                int tempKode = int.Parse(tempKodeStatus);
+                tempKode++;
+                kodeStatus = tempKode.ToString();
             }
-            string queryString = "insert into dbo.status_mahasiswa (id_staus,nim, " + "status_mahasiswa, tahun_masuk) " + "values (@ids, @NIM, @sm, @tm)";
+            string queryString = "INSERT INTO dbo.status_mahasiswa (id_status, nim, status_mahasiswa, tahun_masuk) VALUES (@id_status, @nim, @status_mahasiswa, @tahun_masuk)";
             SqlCommand cmd = new SqlCommand(queryString, koneksi);
             cmd.CommandType = CommandType.Text;
-
-            cmd.Parameters.Add(new SqlParameter("ids", kodeStatus));
+            cmd.Parameters.Add(new SqlParameter("id_status", kodeStatus));
             cmd.Parameters.Add(new SqlParameter("NIM", nim));
-            cmd.Parameters.Add(new SqlParameter("sm", statusMahasiswa));
-            cmd.Parameters.Add(new SqlParameter("tm", tahunMasuk));
-
+            cmd.Parameters.Add(new SqlParameter("status_mahasiswa", statusMahasiswa));
+            cmd.Parameters.Add(new SqlParameter("tahun_masuk", tahunMasuk));
             cmd.ExecuteNonQuery();
             koneksi.Close();
-
-            MessageBox.Show("Data Berhasil Disimpan", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Data berhasil disimpan", "Sukses!", MessageBoxButtons.OK, MessageBoxIcon.Information);
             refreshform();
             dataGridView();
         }

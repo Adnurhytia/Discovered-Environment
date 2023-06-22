@@ -35,6 +35,8 @@
             this.btnOpen = new System.Windows.Forms.Button();
             this.nmp = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.idp = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,7 +52,7 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(270, 379);
+            this.btnSave.Location = new System.Drawing.Point(270, 402);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(86, 36);
             this.btnSave.TabIndex = 1;
@@ -60,7 +62,7 @@
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(394, 378);
+            this.btnClear.Location = new System.Drawing.Point(394, 402);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(78, 37);
             this.btnClear.TabIndex = 2;
@@ -104,11 +106,30 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Nama Prodi";
             // 
+            // idp
+            // 
+            this.idp.Location = new System.Drawing.Point(261, 377);
+            this.idp.Name = "idp";
+            this.idp.Size = new System.Drawing.Size(211, 26);
+            this.idp.TabIndex = 7;
+            this.idp.TextChanged += new System.EventHandler(this.idp_TextChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(155, 380);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 20);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Id Prodi";
+            // 
             // Halaman_data_prodi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.idp);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nmp);
             this.Controls.Add(this.btnOpen);
@@ -134,5 +155,7 @@
         private System.Windows.Forms.Button btnOpen;
         private System.Windows.Forms.TextBox nmp;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox idp;
+        private System.Windows.Forms.Label label2;
     }
 }

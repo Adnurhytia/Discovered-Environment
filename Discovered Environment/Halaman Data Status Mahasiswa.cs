@@ -19,7 +19,7 @@ namespace Discovered_Environment
 {
     public partial class Halaman_Data_Status_Mahasiswa : Form
     {
-        private string stringConnection = "data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;" + "database=Universitas;User ID=sa;Password=3007dinda";
+        private string stringConnection = "Data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;Initial Catalog=Kampus;User ID=sa;Password=3007dinda";
         private SqlConnection koneksi;
 
         private void refreshform()
@@ -27,7 +27,6 @@ namespace Discovered_Environment
             cbxnama.Enabled = false;
             cbxStatusMahasiswa.Enabled = false;
             cbxTahunMasuk.Enabled = false;
-            cbxnama.SelectedIndex = -1;
             cbxStatusMahasiswa.SelectedIndex = -1;
             cbxTahunMasuk.SelectedIndex = -1;
             txtNIM.Visible = false;

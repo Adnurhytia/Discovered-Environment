@@ -19,7 +19,7 @@ namespace Discovered_Environment
 {
     public partial class Halaman_Data_Mahasiswa : Form
     {
-        private string stringConnection = "Data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;Initial Catalog=Universitas;Persist Security Info=True;User ID=sa;Password=3007dinda";
+        private string stringConnection = "Data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;Initial Catalog=Kampus;User ID=sa;Password=3007dinda";
         private SqlConnection koneksi;
         private string nim, nama, alamat, jk, prodi;
         private DateTime tgl;
@@ -69,7 +69,7 @@ namespace Discovered_Environment
             else
             {
                 koneksi.Open();
-                string str = "INSERT INTO Mahasiwa (nim, nama_mahasiswa, jenis_kelamin, alamat, tgl_lahir, id_prodi) VALUES (@nim, @nama_mahasiswa, @jenis_kelamin, @alamat, @tgl_lahir, @id_prodi)";
+                string str = "INSERT INTO mahasiswa (nim, nama_mahasiswa, alamat, jenis_kelamin, id_prodi, tgl_lahir) VALUES (@nim, @nama_mahasiswa, @alamat, @jenis_kelamin, @id_prodi, @tgl_lahir)";
                 SqlCommand cmd = new SqlCommand(str, koneksi);
                 cmd.Parameters.AddWithValue("@nim", nim);
                 cmd.Parameters.AddWithValue("@nama_mahasiswa", nama);

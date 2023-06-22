@@ -19,7 +19,7 @@ namespace Discovered_Environment
 {
     public partial class Halaman_data_prodi : Form
     {
-        private string stringConnection = "data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;" + "database=Universitas;User ID=sa;Password=3007dinda";
+        private string stringConnection = "Data Source=DESKTOP-4IT269M\\ADINDANURHAYATI;Initial Catalog=Kampus;User ID=sa;Password=3007dinda";
         private  SqlConnection koneksi;
 
         private void refreshform()
@@ -39,7 +39,7 @@ namespace Discovered_Environment
         private void dataGridView()
         {
             koneksi.Open();
-            string str = "select nama_prodi from dbo.Prodi";
+            string str = "select nama_prodi from dbo.prodi";
             SqlDataAdapter da = new SqlDataAdapter(str, koneksi);
             DataSet ds = new DataSet();
             da.Fill(ds);
